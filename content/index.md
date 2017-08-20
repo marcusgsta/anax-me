@@ -1,7 +1,15 @@
 ---
-title: "Min fina titel"
+title: "Vem är jag"
 ...
-Min me-sida
+
+Vem är jag
 =========================
 
-Här kommer innehållet till min fina sida.
+Lite uppgifter om vem som gjort den här sidan:
+
+Namn: Marcus Gustafsson<br/>
+Student på Webbprogrammering<br/>
+Blekinge Tekniska Högskola<br/>
+År 2 – kursen ramverk1
+
+![Jag](image/marcus-pic.jpg)

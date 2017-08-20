@@ -22,15 +22,19 @@ class App
      */
     public function renderPage($data, $status = 200)
     {
-        $data["stylesheets"] = ["css/style.css"];
+        $data["stylesheets"] = ["css/bootstrap.min.css", "css/style.css"];
+        $data["javascripts"] = ["js/jquery-3.2.1.slim.min.js", "js/popper.min.js", "js/bootstrap.min.js"];
 
         // Add common header, navbar and footer
-        //$this->view->add("default1/header", [], "header");
-        //$this->view->add("default1/navbar", [], "navbar");
-        //$this->view->add("default1/footer", [], "footer");
+        $this->view->add("take1/header", [], "header");
+        $this->view->add("navbar/navbar", [], "navbar");
+
+        //$this->view->add("take1/row1", [], "row1");
+
+        $this->view->add("take1/footer", [], "footer");
 
         // Add layout, render it, add to response and send.
-        $this->view->add("default1/layout", $data, "layout");
+        $this->view->add("my_default/layout", $data, "layout");
         $body = $this->view->renderBuffered("layout");
         $this->response->setBody($body)
                        ->send($status);

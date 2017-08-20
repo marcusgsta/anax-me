@@ -24,3 +24,7 @@ $app->router->handle(
     $app->request->getRoute(),
     $app->request->getMethod()
 );
+
+$app->navbar = new \Mag\Navbar\Navbar();
+$app->navbar->setApp($app);
+$app->navbar->configure("config/navbar.php");
