@@ -13,9 +13,12 @@
     },
 
     "autoload": {
-    "psr-4": {"Anax\\": "src/"}
+    "psr-4": {
+        "Anax\\": "src/",
+        "Marcusgsta\\": "src/"
+    }
     },
-    "name": "marcusgsta/anax",
+    "name": "Marcusgsta/anax",
     "description": "anax-for-ramverk1"
 
 }

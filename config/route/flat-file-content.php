@@ -1,4 +1,20 @@
 <?php
+
+
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+
+    return $length === 0 ||
+    (substr($haystack, -$length) === $needle);
+}
+
 /**
  * Routes for flat file content.
  */
@@ -21,6 +37,15 @@ $app->router->always(function () use ($app) {
     if (strncmp($base, $real, strlen($base))) {
         return;
     }
+
+    // Check for new comments
+
+    $app->commentController->commentCheck();
+
+    // if (isset($_POST['text'])) {
+    //     $new_comment = $_POST;
+    //     $app->comment->saveComment($new_comment);
+    // }
 
     // Get content from markdown file
     $content = file_get_contents($file);

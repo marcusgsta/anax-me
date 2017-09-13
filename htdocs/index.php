@@ -16,6 +16,10 @@ require ANAX_INSTALL_PATH . "/vendor/autoload.php";
 // Add all services to $app
 $app = require ANAX_INSTALL_PATH . "/config/service.php";
 
+// Configure session
+$app->session->configure("session.php");
+$app->session->start();
+
 // Load the routes
 require ANAX_INSTALL_PATH . "/config/route.php";
 
@@ -24,7 +28,3 @@ $app->router->handle(
     $app->request->getRoute(),
     $app->request->getMethod()
 );
-
-$app->navbar = new \Mag\Navbar\Navbar();
-$app->navbar->setApp($app);
-$app->navbar->configure("config/navbar.php");

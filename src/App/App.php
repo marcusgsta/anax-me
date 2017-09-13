@@ -22,14 +22,18 @@ class App
      */
     public function renderPage($data, $status = 200)
     {
-        $data["stylesheets"] = ["css/bootstrap.min.css", "css/style.css"];
+        $data["stylesheets"] = ["css/bootstrap.min.css",
+                                "css/style.css",
+                                "css/remserver.css"];
+
         $data["javascripts"] = ["js/jquery-3.2.1.slim.min.js", "js/popper.min.js", "js/bootstrap.min.js"];
 
         // Add common header, navbar and footer
         $this->view->add("take1/header", [], "header");
-        $this->view->add("navbar/navbar", [], "navbar");
+        $this->view->add("take1/navbar", [], "navbar");
 
-        //$this->view->add("take1/row1", [], "row1");
+        //$this->view->add("take1/edit-comment", [], "edit-comment");
+        $this->view->add("take1/comment", [], "comment");
 
         $this->view->add("take1/footer", [], "footer");
 
