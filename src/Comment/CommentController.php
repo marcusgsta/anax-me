@@ -23,7 +23,7 @@ class CommentController implements AppInjectableInterface
     {
         $this->app->session->destroy();
         $this->app->response->sendJson(["message" => "The session was destroyed."]);
-        exit;
+        //exit;
     }
 
 
@@ -42,7 +42,7 @@ class CommentController implements AppInjectableInterface
 
         $item = $this->app->Comment->addItem($key, $entry);
         $this->app->response->sendJson($item);
-        exit;
+        //exit;
     }
 
 
@@ -63,14 +63,12 @@ class CommentController implements AppInjectableInterface
         }
 
         if (isset($_GET['delete'])) {
-
             $commentArray = $_GET['key'];
             $id = $_GET['id'];
             $this->app->comment->deleteComment($commentArray, $id);
         }
 
         if (isset($_GET['edit'])) {
-
             $commentArray = $_GET['key'];
             $id = $_GET['id'];
             $htmlform = $this->app->comment->editComment($commentArray, $id);

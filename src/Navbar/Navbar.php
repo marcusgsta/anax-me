@@ -46,31 +46,30 @@ class Navbar implements
           <div class='navbar-collapse collapse' id='navbarsExample09'>";
         $html .= "<ul class='navbar-nav mr-auto mt-2 mt-lg-0'>";
         // $page = basename($_SERVER['REQUEST_URI']);
+        //foreach ($values as $key => $value) {
+        foreach ($values as $value) {
+            $route = $value['route'];
+            $text = $value['text'];
+            //$url = $app->url->create($route);
 
-        foreach ($values as $key => $value) {
+            $html .= "<li class=\"";
 
-        $route = $value['route'];
-        $text = $value['text'];
-        //$url = $app->url->create($route);
+            if ($value['route'] == "") {
+                $value['route'] = "htdocs";
+            }
 
-        $html .= "<li class=\"";
-
-        if ($value['route'] == "") {
-            $value['route'] = "htdocs";
-        }
-
-        if ($page == $value['route']) {
-            //$html .= "selected";
-            $html .= "nav-item active";
-        } else {
-            $html .= "nav-item";
-        }
-        // var_dump($_SERVER['REQUEST_URI']);
-        // var_dump($route);
-        // ($page == $url) ? "selected" : "";
-        // $html .= "\"><a class='nav-link' href='" . $url . "'>" . $text . "</a></li>";
-        //$html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
-        $html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
+            if ($page == $value['route']) {
+                //$html .= "selected";
+                $html .= "nav-item active";
+            } else {
+                $html .= "nav-item";
+            }
+            // var_dump($_SERVER['REQUEST_URI']);
+            // var_dump($route);
+            // ($page == $url) ? "selected" : "";
+            // $html .= "\"><a class='nav-link' href='" . $url . "'>" . $text . "</a></li>";
+            //$html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
+            $html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
     }
         $html .= "</ul></div></nav>";
 

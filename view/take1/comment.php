@@ -12,10 +12,9 @@
 <?php
 
 $i = 0;
-if (isset($comments)):
-if (!empty($comments)):
-
-foreach ($comments as $comment): ?>
+if (isset($comments)) :
+    if (!empty($comments)) :
+        foreach ($comments as $comment) : ?>
 
     <tr><td>
     <img src="<?=$comment['gravatar'];?>">
@@ -39,8 +38,8 @@ foreach ($comments as $comment): ?>
 <?php $i++; ?>
 
 <?php endforeach;
-        endif;
-        endif; ?>
+endif;
+endif; ?>
         <?php //$this->app->session->destroy(); ?>
         <?php
         //echo '<pre>' . var_export($_SESSION, true) . '</pre>';?>

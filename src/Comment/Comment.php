@@ -11,7 +11,6 @@ use \Anax\Common\AppInjectableTrait;
  * Comment.
  */
 class Comment implements AppInjectableInterface
-
 {
     use AppInjectableTrait;
 
@@ -116,7 +115,8 @@ class Comment implements AppInjectableInterface
     {
         $comments = $this->app->session->get($array);
 
-        foreach ($comments as $key => $comment) {
+        //foreach ($comments as $key => $comment) {
+        foreach ($comments as $comment) {
             if ($comment['id'] == $id) {
                 $text = $comment['text'];
                 $id = $comment['id'];
@@ -143,10 +143,10 @@ class Comment implements AppInjectableInterface
      *
      * @return void
      */
-    public function updateComment($array, $id)
-    {
-
-    }
+    // public function updateComment($array, $id)
+    // {
+    //
+    // }
 
 
     /**
@@ -166,5 +166,4 @@ class Comment implements AppInjectableInterface
             }
         }
     }
-
- }
+}
