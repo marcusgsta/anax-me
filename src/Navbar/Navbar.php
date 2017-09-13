@@ -70,7 +70,7 @@ class Navbar implements
             // $html .= "\"><a class='nav-link' href='" . $url . "'>" . $text . "</a></li>";
             //$html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
             $html .= "\"><a class='nav-link' href='" . $route . "'>" . $text . "</a></li>";
-    }
+        }
         $html .= "</ul></div></nav>";
 
         return $html;

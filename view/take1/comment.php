@@ -37,8 +37,9 @@ if (isset($comments)) :
 
 <?php $i++; ?>
 
-<?php endforeach;
-endif;
+<?php
+        endforeach;
+    endif;
 endif; ?>
         <?php //$this->app->session->destroy(); ?>
         <?php

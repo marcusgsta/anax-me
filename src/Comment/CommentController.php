@@ -85,7 +85,5 @@ class CommentController implements AppInjectableInterface
             // echo $text;
             $this->app->comment->deleteComment($commentArray, $id);
         }
-
     }
-
 }
