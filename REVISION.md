@@ -5,3 +5,6 @@ First commit
 
 ## 1.0.1
 Views and layout.
+
+## 2.0.0
+Comment System Prototype, edits.
