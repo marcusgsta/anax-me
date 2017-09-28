@@ -2,28 +2,32 @@
 
 namespace Marcusgsta\Comment;
 
-use \Anax\Common\AppInjectableInterface;
-use \Anax\Common\AppInjectableTrait;
+use \Anax\DI\InjectionAwareInterface;
+use \Anax\DI\InjectionAwareTrait;
 
 /**
- * Comment.
+ * CommentController.
  */
-class CommentController implements AppInjectableInterface
+class CommentController implements InjectionAwareInterface
 {
-
-    use AppInjectableTrait;
+    use InjectionAwareTrait;
 
 
     /**
-     * Destroy the session.
+     * Add comment.
      *
-     * @return void
+     * @param string $key  for the dataset
+     * @param string $item to add
+     *
+     * @return array as new item inserted
      */
-    public function anyDestroy()
+    public function init()
     {
-        $this->app->session->destroy();
-        $this->app->response->sendJson(["message" => "The session was destroyed."]);
-        //exit;
+        // $dbase = $this->di->get("database");
+        // $dbase->connect();
+        //
+        // $database = $this->di->get("comment")->injectDatabase($dbase);
+        // return $database;
     }
 
 
@@ -35,55 +39,125 @@ class CommentController implements AppInjectableInterface
      *
      * @return void
      */
-    public function postItem($key)
+    public function postItem()
     {
-        $entry = $this->app->request->getBody();
-        $entry = json_decode($entry, true);
+        $entry = $this->di->get("request")->getPost();
+        // $entry = json_decode($entry, true);
+        $previous = $this->di->get("request")->getServer('HTTP_REFERER');
+        $path = basename(parse_url($previous, PHP_URL_PATH));
+        if ($path == 'htdocs') {
+            $path = 'index';
+        }
 
-        $item = $this->app->Comment->addItem($key, $entry);
-        $this->app->response->sendJson($item);
-        //exit;
+        $key = 'page';
+        $entry[$key] = $path;
+
+
+        // make id
+        // $current = $this->app->session->get($path);
+        // $id = count($current);
+        // $id++;
+
+        // $this->app->session->setArray($path, [
+        //         'id' => $id,
+        //         'text' => $text,
+        //         'email' => $email,
+        //         'gravatar' => $gravatar,
+        // ]);
+
+
+        // $item =
+        $this->di->get("comment")->addItem($entry);
+
+        $url = $this->di->get("request")->getServer('HTTP_REFERER');
+
+        $this->di->get("response")->redirect($url);
+    }
+
+    /**
+     * Get the dataset or parts of it.
+     *
+     * @param string $key - the page id for the comments
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @return void
+     */
+
+    // public function getDataset($key)
+    public function getComments($key)
+    {
+        $request = $this->di->get("request");
+
+        $dataset = $this->di->get("comment")->getComments($key);
+        $offset  = $request->getGet("offset", 0);
+        $limit   = $request->getGet("limit", 25);
+        $res = [
+            "data" => array_slice($dataset, $offset, $limit),
+            "offset" => $offset,
+            "limit" => $limit,
+            "total" => count($dataset)
+        ];
+
+        // $this->di->get("response")->sendJson($res);
+        $this->di->get("response")->send($res);
+        exit;
     }
 
 
     /**
+     * Extract the part containing the route.
      *
+     * @return string as the current extracted route
+     */
+    public function extractRoute()
+    {
+        $requestUri = $this->requestUri;
+        $scriptPath = $this->path;
+        $scriptFile = $this->scriptName;
+
+        // Compare REQUEST_URI and SCRIPT_NAME as long they match,
+        // leave the rest as current request.
+        $i = 0;
+        $len = min(strlen($requestUri), strlen($scriptPath));
+        while ($i < $len
+               && $requestUri[$i] == $scriptPath[$i]
+        ) {
+            $i++;
+        }
+        $route = trim(substr($requestUri, $i), "/");
+
+        // Does the request start with script-name - remove it.
+        $len1 = strlen($route);
+        $len2 = strlen($scriptFile);
+
+        if ($len2 <= $len1
+            && substr_compare($scriptFile, $route, 0, $len2, true) === 0
+        ) {
+            $route = substr($route, $len2 + 1);
+        }
+
+        // Remove the ?-part from the query when analysing controller/metod/arg1/arg2
+        $queryPos = strpos($route, "?");
+        if ($queryPos !== false) {
+            $route = substr($route, 0, $queryPos);
+        }
+
+        $route = ($route === false) ? "" : $route;
+
+        $this->route = $route;
+        $this->routeParts = explode("/", trim($route, "/"));
+
+        return $this->route;
+    }
+    /**
+     * Get the dataset or parts of it.
      *
-     * @param string $comment
-     *
+     * @param
+     * @SuppressWarnings(PHPMD.ExitExpression)
      * @return void
      */
-    public function commentCheck()
+    public function anyUnsupported()
     {
-        //$this->app->session->destroy();
-
-        if (isset($_POST['text'])) {
-            $newComment = $_POST;
-            $this->app->comment->saveComment($newComment);
-        }
-
-        if (isset($_GET['delete'])) {
-            $commentArray = $_GET['key'];
-            $id = $_GET['id'];
-            $this->app->comment->deleteComment($commentArray, $id);
-        }
-
-        if (isset($_GET['edit'])) {
-            $commentArray = $_GET['key'];
-            $id = $_GET['id'];
-            $htmlform = $this->app->comment->editComment($commentArray, $id);
-            echo $htmlform;
-        }
-
-        if (isset($_POST['update'])) {
-            $commentArray = $_POST['key'];
-            $id = $_POST['id'];
-            // $text = $_POST['text'];
-            // echo "hej";
-            // echo $commentArray;
-            // echo $id;
-            // echo $text;
-            $this->app->comment->deleteComment($commentArray, $id);
-        }
+        echo "Not supported";
+        exit;
     }
 }

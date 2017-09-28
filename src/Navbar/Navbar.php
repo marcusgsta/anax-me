@@ -10,12 +10,16 @@ namespace Marcusgsta\Navbar;
 *   creates html for navbar
 *
 */
-class Navbar implements
-    \Anax\Common\AppInjectableInterface,
-    \Anax\Common\ConfigureInterface
+class Navbar
 {
-    use \Anax\Common\AppInjectableTrait;
-    use \Anax\Common\ConfigureTrait;
+
+    public $config;
+
+    public function configure()
+    {
+        $array = require ANAX_INSTALL_PATH . "/config/navbar.php";
+        return $this->config = $array;
+    }
 
     /**
     *   get html for navbar

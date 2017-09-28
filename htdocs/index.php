@@ -7,6 +7,7 @@
 define("ANAX_INSTALL_PATH", realpath(__DIR__ . "/.."));
 define("ANAX_APP_PATH", ANAX_INSTALL_PATH);
 
+
 // Include essentials
 require ANAX_INSTALL_PATH . "/config/error_reporting.php";
 
@@ -14,16 +15,29 @@ require ANAX_INSTALL_PATH . "/config/error_reporting.php";
 require ANAX_INSTALL_PATH . "/vendor/autoload.php";
 
 // Add all services to $app
-$app = require ANAX_INSTALL_PATH . "/config/service.php";
+// $app = require ANAX_INSTALL_PATH . "/config/service.php";
+$di = new \Anax\DI\DIFactoryConfig("di.php");
+// $app = new \Anax\App\App();
+// $app = new \Anax\App\AppDI();
+$app = new \Anax\App\AppDIMagic();
+$app->setDI($di);
 
 // Configure session
-$app->session->configure("session.php");
-$app->session->start();
+// $app->session->configure("session.php");
+// $app->session->start();
 
 // Load the routes
-require ANAX_INSTALL_PATH . "/config/route.php";
+// require ANAX_INSTALL_PATH . "/config/route.php";
 
 // Leave to router to match incoming request to routes
+// $app->router->handle(
+//     $app->request->getRoute(),
+//     $app->request->getMethod()
+// );
+// $di->router->handle(
+//     $di->request->getRoute(),
+//     $di->request->getMethod()
+// );
 $app->router->handle(
     $app->request->getRoute(),
     $app->request->getMethod()

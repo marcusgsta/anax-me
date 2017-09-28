@@ -4,166 +4,83 @@ namespace Marcusgsta\Comment;
 
 use \Anax\Configure\ConfigureInterface;
 use \Anax\Configure\ConfigureTrait;
-use \Anax\Common\AppInjectableInterface;
-use \Anax\Common\AppInjectableTrait;
 
 /**
- * Comment.
+ * Comment class for handling comment system.
  */
-class Comment implements AppInjectableInterface
+class Comment implements ConfigureInterface
 {
-    use AppInjectableTrait;
+    use ConfigureTrait;
 
+
+    private $dbase;
 
     /**
-     * Add an item to a dataset.
+     * Inject dependency to $database..
      *
-     * @param string $key  for the dataset
-     * @param string $item to add
+     * @param array $database object representing database.
      *
-     * @return array as new item inserted
+     * @return self
      */
-    public function addItem($key, $item)
+    public function injectDatabase($database)
     {
-        $dataset = $this->getDataset($key);
+        $this->dbase = $database;
+        return $this;
+    }
 
-        // Get max value for the id
-        $max = 0;
-        foreach ($dataset as $val) {
-            if ($max < $val["id"]) {
-                $max = $val["id"];
-            }
-        }
-        $item["id"] = $max + 1;
-        $dataset[] = $item;
-        $this->saveDataset($key, $dataset);
-        return $item;
+
+    public function addItem($values)
+    {
+        //$dataset = $this->getDataset($key);
+        $this->dbase->connect();
+        $author = $values['email'];
+        $commenttext = $values['text'];
+        $page = $values['page'];
+
+
+        $sql = "INSERT INTO comment (author, commenttext, page) VALUES ('$author', '$commenttext', '$page');";
+
+        $this->dbase->execute($sql);
+
     }
 
     /**
      * Get (or create) a subset of data.
      *
-     * @param string $key for data subset.
+     * @param string $key - page id for comments.
      *
      * @return array with the dataset
      */
-    public function getDataset($key)
+    // public function getDataset($key)
+    public function getComments($key)
     {
-        $data = $this->session->get(self::KEY);
-        $set = isset($data[$key])
-            ? $data[$key]
+        $this->dbase->connect();
+        $sql = "SELECT * FROM comment where page = '$key'";
+        $data = $this->dbase->executeFetchAll($sql);
+        $set = isset($data)
+            ? $data
             : [];
         return $set;
+        // $data = $this->session->get(self::KEY);
+        // $set = isset($data[$key])
+        //     ? $data[$key]
+        //     : [];
+        // return $set;
     }
-
-    /**
-     * Save (the modified) dataset.
-     *
-     * @param string $key     for data subset.
-     * @param string $dataset the data to save.
-     *
-     * @return self
-     */
-    public function saveDataset($key, $dataset)
-    {
-        $data = $this->session->get(self::KEY);
-        $data[$key] = $dataset;
-        $this->session->set(self::KEY, $data);
-        return $this;
-    }
-    /**
-     *
-     *
-     * @param string $comment
-     *
-     * @return void
-     */
-    public function saveComment($comment)
-    {
-        $path = $this->app->request->getRoute();
-
-        // Check for comments
-        if (isset($comment['text'])) {
-            $text = $comment['text'];
-            $email = $comment['email'];
-            $gravatar = $comment['gravatar'];
-
-            $currentComments = 'comments' . $path;
-
-            // make id
-            $current = $this->app->session->get($currentComments);
-            $id = count($current);
-            $id++;
-
-            $this->app->session->setArray($currentComments, [
-                    'id' => $id,
-                    'text' => $text,
-                    'email' => $email,
-                    'gravatar' => $gravatar,
-            ]);
-        }
-    }
-
-    /**
-     *
-     *
-     * @param string $comment
-     *
-     * @return void
-     */
-    public function editComment($array, $id)
-    {
-        $comments = $this->app->session->get($array);
-
-        //foreach ($comments as $key => $comment) {
-        foreach ($comments as $comment) {
-            if ($comment['id'] == $id) {
-                $text = $comment['text'];
-                $id = $comment['id'];
-                $email = $comment['email'];
-                $gravatar = $comment['gravatar'];
-
-                $html = "<form method='post'>";
-                $html .= "<textarea name='text' value=$text>$text</textarea>";
-                $html .= "<input type='hidden' name='id' value=$id>";
-                $html .= "<input type='hidden' name='email' value=$email>";
-                $html .= "<input type='hidden' name='gravatar' value=$gravatar>";
-                $html .= "<input type='hidden' name='key' value=$array>";
-                $html .= "<div><input type='submit' name='update' value='Uppdatera'</div>";
-                $html .= "</form>";
-            }
-        }
-        return $html;
-    }
-
-    /**
-     *
-     *
-     * @param string $comment
-     *
-     * @return void
-     */
-    // public function updateComment($array, $id)
+    // public function addItem($key, $item)
     // {
+    //     $dataset = $this->getDataset($key);
     //
+    //     // Get max value for the id
+    //     $max = 0;
+    //     foreach ($dataset as $val) {
+    //         if ($max < $val["id"]) {
+    //             $max = $val["id"];
+    //         }
+    //     }
+    //     $item["id"] = $max + 1;
+    //     $dataset[] = $item;
+    //     $this->saveDataset($key, $dataset);
+    //     return $item;
     // }
-
-
-    /**
-     *
-     *
-     * @param string $comment
-     *
-     * @return void
-     */
-    public function deleteComment($array, $id)
-    {
-        $comments = $this->app->session->get($array);
-
-        foreach ($comments as $key => $comment) {
-            if ($comment['id'] == $id) {
-                $this->app->session->deleteArray($array, $key);
-            }
-        }
-    }
 }

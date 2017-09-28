@@ -47,8 +47,8 @@ endif; ?>
 
 </table>
 
-    <a href="#">Kommentera</a>
-    <form class="comment" action="" method="post">
+    <p><a href="access">Logga in</a> för att kommentera</p>
+    <form class="comment" action="comment/post" method="post">
         <p>Kommentera:</p>
         <div>
         <textarea name="text" rows="8" cols="80"></textarea>
@@ -61,6 +61,7 @@ endif; ?>
         <label for="gravatar">Gravatar:</label>
         <input type="text" name="gravatar" value="">
     </div>
+        <input type="hidden" name="" value="">
         <button type="submit" name="button">Skicka</button>
     </form>
 </div>
