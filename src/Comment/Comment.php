@@ -2,85 +2,30 @@
 
 namespace Marcusgsta\Comment;
 
-use \Anax\Configure\ConfigureInterface;
-use \Anax\Configure\ConfigureTrait;
+use \Anax\Database\ActiveRecordModel;
 
 /**
- * Comment class for handling comment system.
+ * A database driven model.
  */
-class Comment implements ConfigureInterface
+class Comment extends ActiveRecordModel
 {
-    use ConfigureTrait;
-
-
-    private $dbase;
 
     /**
-     * Inject dependency to $database..
-     *
-     * @param array $database object representing database.
-     *
-     * @return self
+     * @var string $tableName name of the database table.
      */
-    public function injectDatabase($database)
-    {
-        $this->dbase = $database;
-        return $this;
-    }
-
-
-    public function addItem($values)
-    {
-        //$dataset = $this->getDataset($key);
-        $this->dbase->connect();
-        $author = $values['email'];
-        $commenttext = $values['text'];
-        $page = $values['page'];
-
-
-        $sql = "INSERT INTO comment (author, commenttext, page) VALUES ('$author', '$commenttext', '$page');";
-
-        $this->dbase->execute($sql);
-
-    }
+    protected $tableName = "Comment";
 
     /**
-     * Get (or create) a subset of data.
+     * Columns in the table.
      *
-     * @param string $key - page id for comments.
-     *
-     * @return array with the dataset
+     * @var integer $id primary key auto incremented.
      */
-    // public function getDataset($key)
-    public function getComments($key)
-    {
-        $this->dbase->connect();
-        $sql = "SELECT * FROM comment where page = '$key'";
-        $data = $this->dbase->executeFetchAll($sql);
-        $set = isset($data)
-            ? $data
-            : [];
-        return $set;
-        // $data = $this->session->get(self::KEY);
-        // $set = isset($data[$key])
-        //     ? $data[$key]
-        //     : [];
-        // return $set;
-    }
-    // public function addItem($key, $item)
-    // {
-    //     $dataset = $this->getDataset($key);
-    //
-    //     // Get max value for the id
-    //     $max = 0;
-    //     foreach ($dataset as $val) {
-    //         if ($max < $val["id"]) {
-    //             $max = $val["id"];
-    //         }
-    //     }
-    //     $item["id"] = $max + 1;
-    //     $dataset[] = $item;
-    //     $this->saveDataset($key, $dataset);
-    //     return $item;
-    // }
+    public $id;
+    public $commenttext;
+    public $acronym;
+    public $page;
+    public $created;
+    public $updated;
+    public $deleted;
+    public $active;
 }

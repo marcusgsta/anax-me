@@ -23,6 +23,7 @@ $app = new \Anax\App\AppDIMagic();
 $app->setDI($di);
 
 // Configure session
+// $di->get("session")->destroy();
 // $app->session->configure("session.php");
 // $app->session->start();
 

@@ -21,7 +21,7 @@ if ($grav_link != null) {
 <div class="container">
 
 <h1>Välkommen <?=$user;?></h1>
-<img class="gravatar right" src="<?=$grav_link;?>" alt="Gravatar">
+<img class="gravatar right" src="<?=$grav_link;?>" alt="Gravatar"/>
 
 <p>Detta är din personliga profil.</p>
 

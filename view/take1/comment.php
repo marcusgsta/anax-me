@@ -1,9 +1,14 @@
 <div class="comment">
 <?php
     //if (isset($app->session->))
-    $path = $app->request->getRoute();
-    $current_comments = 'comments' . $path;
-    $comments = $app->session->get($current_comments);
+    // $path = $app->request->getRoute();
+    // $current_comments = 'comments' . $path;
+    // $comments = $app->session->get($current_comments);
+
+    $comments = $data['comments'];
+    $user = $data['user'];
+    $role = $data['role'];
+
 
 ?>
 
@@ -17,27 +22,27 @@ if (isset($comments)) :
         foreach ($comments as $comment) : ?>
 
     <tr><td>
-    <img src="<?=$comment['gravatar'];?>">
+
     </td></tr>
 
         <tr><td>
-        <?=$comment['text'];?>
+        Kommentar: <?=$comment->commenttext;?>
         </td></tr>
 
         <tr><td>
-        E-mail: <?=$comment['email'];?>
+        Akronym: <?=$comment->acronym;?>
         </td>
-        <?php $id = $comment['id']; ?>
+        <?php //$id = $comment['id']; ?>
     </tr>
+
+    <?php if ($user == $comment->acronym || $role == 10) : ?>
     <tr>
-    <td><a href="?delete&key=<?=$current_comments . '&id=' . $id;?>">Ta bort</a></td>
-    <!-- <td><a href="?edit&key= //$current_comments . '&id=' . $id;?>">Redigera</a></td> -->
-    <td><a href="comment/update/<?=$id;?>">Redigera</a></td>
+    <td><a href="comment/edit/<?=$comment->page . '/' . $comment->id;?>">Redigera</a></td>
     </tr>
 
-<?php $i++; ?>
+<?php     endif;
 
-<?php
+        $i++;
         endforeach;
     endif;
 endif; ?>
@@ -47,11 +52,39 @@ endif; ?>
 
 </table>
 
-    <p><a href="access">Logga in</a> för att kommentera</p>
-    <form class="comment" action="comment/post" method="post">
-        <p>Kommentera:</p>
+
+<?php
+
+$route = $app->request->getRoute();
+// $validRoutes = $this->di->commentRoutes("config");
+$commentableRoutes = $data['commentableRoutes'];
+
+if ($route == "") {
+    $route = "index";
+}
+
+if (in_array($route, $commentableRoutes)) {
+    $previous = $app->request->getRoute();
+    if ($previous == "") {
+        $previous = "index";
+    }
+    // $previous = $this->di->get("route")->getRoute();
+    $val = $this->url("user/login");
+    $comment = $this->url("comment/create");
+    $this->di->session->set("previous", $previous);
+
+    $output = isset($user) ? "<a href='$comment'>Kommentera</a> som användare '" . $user . "':": "<a href='$val'>Logga in</a> för att kommentera";
+
+    echo "<p>" . $output . "</p>";
+    $val = $this->url("user/create");
+    echo "<p><a href='$val'>Registrera ny användare</a></p>";
+}
+?>
+
+    <!-- <form class="comment" action="comment/post" method="post">
+
         <div>
-        <textarea name="text" rows="8" cols="80"></textarea>
+        <textarea name="text" rows="4" cols="30"></textarea>
     </div>
     <div>
         <label for="email">E-mail:</label>
@@ -63,5 +96,6 @@ endif; ?>
     </div>
         <input type="hidden" name="" value="">
         <button type="submit" name="button">Skicka</button>
-    </form>
+    </form> -->
+
 </div>

@@ -4,6 +4,11 @@ body {
     margin-bottom: 4em;
 }
 
+.main-wrap,
+.commentsection {
+    padding: 20px;
+}
+
 .footer {
     /*position: absolute;*/
     /*bottom: 0;*/
@@ -13,10 +18,24 @@ body {
     background-color: #f5f5f5;
 }
 
+text-area {
+    width: 300px;
+    height: 300px;
+}
+
 .container-fluid {
     padding-top: 20px;
 }
 
 nav {
     width: 100%;
+}
+
+.logout-link {
+    float:right;
+
+}
+
+.gravatar {
+    border-radius: 50%;
 }

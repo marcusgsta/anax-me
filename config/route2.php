@@ -30,7 +30,7 @@ return [
         [
             // Posting comments
             "mount" => "comment",
-            "file" => __DIR__ . "/route2/comment.php",
+            "file" => __DIR__ . "/route2/commentController.php",
         ],
         [
             // Access routes
@@ -42,6 +42,16 @@ return [
         //     "mount" => "test_pdo_sqlite",
         //     "file" => __DIR__ . "/route2/test_pdo_sqlite.php",
         // ],
+        [
+            // Add routes from userController and mount on user/
+            "mount" => "user",
+            "file" => __DIR__ . "/route2/userController.php",
+        ],
+        [
+            // Add routes from bookController and mount on book/
+            "mount" => "book",
+            "file" => __DIR__ . "/route2/bookController.php",
+        ],
         [
             // Keep this last since its a catch all
             "mount" => null,
