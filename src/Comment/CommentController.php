@@ -2,162 +2,203 @@
 
 namespace Marcusgsta\Comment;
 
+use \Anax\Configure\ConfigureInterface;
+use \Anax\Configure\ConfigureTrait;
 use \Anax\DI\InjectionAwareInterface;
-use \Anax\DI\InjectionAwareTrait;
+use \Anax\Di\InjectionAwareTrait;
+use \Marcusgsta\Comment\HTMLForm\EditCommentForm;
+use \Marcusgsta\Comment\HTMLForm\CreateCommentForm;
+use \Marcusgsta\Comment\HTMLForm\DeleteCommentForm;
 
 /**
- * CommentController.
+ * A controller class.
  */
-class CommentController implements InjectionAwareInterface
+class CommentController implements
+    ConfigureInterface,
+    InjectionAwareInterface
 {
-    use InjectionAwareTrait;
+    use ConfigureTrait,
+        InjectionAwareTrait;
+
 
 
     /**
-     * Add comment.
-     *
-     * @param string $key  for the dataset
-     * @param string $item to add
-     *
-     * @return array as new item inserted
+     * @var $data description
      */
-    public function init()
-    {
-        // $dbase = $this->di->get("database");
-        // $dbase->connect();
-        //
-        // $database = $this->di->get("comment")->injectDatabase($dbase);
-        // return $database;
-    }
+    //private $data;
+
 
 
     /**
-     * Create a new item by getting the entry from the request body and add
-     * to the dataset.
+     * Description.
      *
-     * @param string $key    for the dataset
+     * @param datatype $variable Description
+     *
+     * @throws Exception
      *
      * @return void
      */
-    public function postItem()
+    public function getComments()
     {
-        $entry = $this->di->get("request")->getPost();
-        // $entry = json_decode($entry, true);
-        $previous = $this->di->get("request")->getServer('HTTP_REFERER');
-        $path = basename(parse_url($previous, PHP_URL_PATH));
-        if ($path == 'htdocs') {
-            $path = 'index';
-        }
+        // $title      = "A collection of items";
+        // $view       = $this->di->get("view");
+        // $pageRender = $this->di->get("pageRender");
+        $route = $this->di->request->getRoute();
 
-        $key = 'page';
-        $entry[$key] = $path;
+        $comment = new Comment();
+        $comment->setDb($this->di->get("db"));
 
+        $allComments = $comment->findAll();
 
-        // make id
-        // $current = $this->app->session->get($path);
-        // $id = count($current);
-        // $id++;
+        // filter array of comments to current page
+        $newArray = array_filter($allComments, function ($obj) {
+            $route = $this->di->request->getRoute();
+            $route = empty($route) ? "index" : $route;
 
-        // $this->app->session->setArray($path, [
-        //         'id' => $id,
-        //         'text' => $text,
-        //         'email' => $email,
-        //         'gravatar' => $gravatar,
-        // ]);
+            if ($obj->page != $route) {
+                return false;
+            }
+            return true;
+        });
 
-
-        // $item =
-        $this->di->get("comment")->addItem($entry);
-
-        $url = $this->di->get("request")->getServer('HTTP_REFERER');
-
-        $this->di->get("response")->redirect($url);
-    }
-
-    /**
-     * Get the dataset or parts of it.
-     *
-     * @param string $key - the page id for the comments
-     * @SuppressWarnings(PHPMD.ExitExpression)
-     * @return void
-     */
-
-    // public function getDataset($key)
-    public function getComments($key)
-    {
-        $request = $this->di->get("request");
-
-        $dataset = $this->di->get("comment")->getComments($key);
-        $offset  = $request->getGet("offset", 0);
-        $limit   = $request->getGet("limit", 25);
-        $res = [
-            "data" => array_slice($dataset, $offset, $limit),
-            "offset" => $offset,
-            "limit" => $limit,
-            "total" => count($dataset)
+        $data = [
+            // "items" => $comment->findAll(),
+            "items" => $newArray,
         ];
 
-        // $this->di->get("response")->sendJson($res);
-        $this->di->get("response")->send($res);
-        exit;
+        return $data;
+
+        // $view->add("book/crud/view-all", $data);
+        //
+        // $pageRender->renderPage(["title" => $title]);
     }
 
-
     /**
-     * Extract the part containing the route.
+     * Description.
      *
-     * @return string as the current extracted route
-     */
-    public function extractRoute()
-    {
-        $requestUri = $this->requestUri;
-        $scriptPath = $this->path;
-        $scriptFile = $this->scriptName;
-
-        // Compare REQUEST_URI and SCRIPT_NAME as long they match,
-        // leave the rest as current request.
-        $i = 0;
-        $len = min(strlen($requestUri), strlen($scriptPath));
-        while ($i < $len
-               && $requestUri[$i] == $scriptPath[$i]
-        ) {
-            $i++;
-        }
-        $route = trim(substr($requestUri, $i), "/");
-
-        // Does the request start with script-name - remove it.
-        $len1 = strlen($route);
-        $len2 = strlen($scriptFile);
-
-        if ($len2 <= $len1
-            && substr_compare($scriptFile, $route, 0, $len2, true) === 0
-        ) {
-            $route = substr($route, $len2 + 1);
-        }
-
-        // Remove the ?-part from the query when analysing controller/metod/arg1/arg2
-        $queryPos = strpos($route, "?");
-        if ($queryPos !== false) {
-            $route = substr($route, 0, $queryPos);
-        }
-
-        $route = ($route === false) ? "" : $route;
-
-        $this->route = $route;
-        $this->routeParts = explode("/", trim($route, "/"));
-
-        return $this->route;
-    }
-    /**
-     * Get the dataset or parts of it.
+     * @param datatype $variable Description
      *
-     * @param
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @throws Exception
+     *
      * @return void
      */
-    public function anyUnsupported()
+    public function getPostCreateComment()
     {
-        echo "Not supported";
-        exit;
+        $title      = "A create comment page";
+        $view       = $this->di->get("view");
+        $pageRender = $this->di->get("pageRender");
+        $form       = new CreateCommentForm($this->di);
+
+        $form->check();
+
+        $data = [
+            "content" => $form->getHTML(),
+        ];
+
+        $view->add("default2/article", $data);
+
+        $pageRender->renderPage(["title" => $title]);
+    }
+
+    /**
+     * Description.
+     *
+     * @param datatype $variable Description
+     *
+     * @throws Exception
+     *
+     * @return void
+     */
+    public function getPostEditComment($key, $itemId)
+    {
+        $data = ["page" => $key, "commentid" => $itemId];
+
+        $commentId = $data['commentid'];
+        $loggedInUser = $this->di->session->get("user");
+        $role = $this->getRole($loggedInUser);
+
+        if ($role != 10) {
+            if (!$this->isEditable($commentId, $loggedInUser)) {
+                echo "Du har inte tillgång till att redigera denna kommentar.";
+                return false;
+            }
+        }
+
+        $title      = "An edit comment page";
+        $view       = $this->di->get("view");
+        $pageRender = $this->di->get("pageRender");
+        $form       = new EditCommentForm($this->di, $data);
+
+        $form->check();
+
+        $data = [
+            "content" => $form->getHTML(),
+        ];
+
+        $view->add("default2/article", $data);
+
+        $pageRender->renderPage(["title" => $title]);
+    }
+
+    /**
+     * Description.
+     *
+     * @param datatype $variable Description
+     *
+     * @throws Exception
+     *
+     * @return void
+     */
+    public function deleteComment()
+    {
+        $title      = "A delete comments page";
+        $view       = $this->di->get("view");
+        $pageRender = $this->di->get("pageRender");
+        $form       = new DeleteCommentForm($this->di);
+
+        $form->check();
+
+        $data = [
+            "content" => $form->getHTML(),
+        ];
+
+        $view->add("default2/article", $data);
+
+        $pageRender->renderPage(["title" => $title]);
+    }
+
+    /**
+    * get a user's role
+    * @param string user's acronym
+    *
+    * @return integer user's role
+    **/
+    public function getRole($acronym)
+    {
+        $user = new \Anax\User\User();
+        $user->setDb($this->di->get("db"));
+        $user->find("acronym", $acronym);
+        $role = isset($user->role) ? $user->role : null;
+        return $role;
+    }
+
+    /**
+    * check if logged in user can edit the comment
+    * @param string commentid
+    *
+    * @return bool
+    **/
+    public function isEditable($commentId, $user)
+    {
+        $comment = new Comment;
+        $comment->setDb($this->di->get("db"));
+        $comment = $comment->find("id", $commentId);
+
+        if ($comment) {
+            if ($comment->acronym != $user) {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `commentid` INTEGER PRIMARY KEY,
   `commenttext` text DEFAULT NULL,
-  `datetime` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `datetime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `author` varchar(2) NOT NULL,
   `page` varchar NOT NULL
 );

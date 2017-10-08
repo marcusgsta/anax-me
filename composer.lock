@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b97d06b7c463c3e9e686438e17b4b3e",
+    "content-hash": "5c2a2bfd59c7134757e101d9ed04c442",
     "packages": [
         {
             "name": "anax/common",
@@ -204,6 +204,57 @@
             "time": "2017-09-14T15:26:34+00:00"
         },
         {
+            "name": "anax/htmlform",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/canax/htmlform.git",
+                "reference": "3da7f93cf147a460c29512186baa7d4f9e6e80b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/canax/htmlform/zipball/3da7f93cf147a460c29512186baa7d4f9e6e80b4",
+                "reference": "3da7f93cf147a460c29512186baa7d4f9e6e80b4",
+                "shasum": ""
+            },
+            "require": {
+                "anax/di": "^1.0",
+                "anax/request": "^1.0",
+                "anax/response": "^1.0",
+                "anax/session": "^1.0",
+                "anax/url": "^1.0",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Anax\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mikael Roos",
+                    "email": "mos@dbwebb.se",
+                    "homepage": "https://dbwebb.se",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Anax htmlform module.",
+            "homepage": "https://dbwebb.se/anax",
+            "keywords": [
+                "boilerplate",
+                "education",
+                "framework",
+                "micro",
+                "mvc"
+            ],
+            "time": "2017-09-19T19:10:02+00:00"
+        },
+        {
             "name": "anax/page",
             "version": "v1.0.0",
             "source": {
@@ -399,16 +450,16 @@
         },
         {
             "name": "anax/session",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/session.git",
-                "reference": "7dd0c410f85f3501c97069c874179bc8b7a9065d"
+                "reference": "a55a474c1bba4759b79db3822cd5b7dcd67c055b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/session/zipball/7dd0c410f85f3501c97069c874179bc8b7a9065d",
-                "reference": "7dd0c410f85f3501c97069c874179bc8b7a9065d",
+                "url": "https://api.github.com/repos/canax/session/zipball/a55a474c1bba4759b79db3822cd5b7dcd67c055b",
+                "reference": "a55a474c1bba4759b79db3822cd5b7dcd67c055b",
                 "shasum": ""
             },
             "require": {
@@ -447,7 +498,7 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-08-17T15:52:40+00:00"
+            "time": "2017-10-02T15:54:22+00:00"
         },
         {
             "name": "anax/textfilter",

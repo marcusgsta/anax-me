@@ -9,7 +9,7 @@ return [
     "items" => [
         "hem" => [
             "text" => "Hem",
-            "route" => "index",
+            "route" => "",
         ],
         "about" => [
             "text" => "Om",
@@ -22,6 +22,14 @@ return [
         "remserver" => [
             "text" => "Remserver",
             "route" => "remserver",
+        ],
+        "books" => [
+            "text" => "Böcker",
+            "route" => "book",
+        ],
+        "profile" => [
+            "text" => "Min profil",
+            "route" => "user/profile",
         ],
     ]
 ];
