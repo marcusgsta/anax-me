@@ -155,19 +155,19 @@ Jag fick varningar för exit expressions i några klasser, bland annat PageRende
 
 ###Hur gick det att integrera formulärhantering och databashantering i ditt kommentarssystem?
 
-Jag använde mig av HTMLForm och Active Record för att lägga in bok-exemplet. Det gick relativt smärtfritt. Skönt också att inte behöva skriva all CRUD-kod igen. Det känns typiskt som sådan kod som är lämplig att scaffolda fram. Att använda HTMLForm gillade jag också. Här finns alla formulär, och funktioner för att fånga upp POST och GET-variabler. Väldigt bra grej att ha i bagaget för kommande projekt.
+Jag använde mig av HTMLForm och Active Record för att lägga in bok-exemplet, och jag fortsatte med att införliva för User och Comment. Det gick relativt smärtfritt. Skönt också att inte behöva skriva all CRUD-kod igen. Det känns typiskt som sådan kod som är lämplig att scaffolda fram. HTMLForm känns också praktiskt. Här finns alla formulär, och funktioner för att fånga upp POST och GET-variabler. Väldigt bra grej att ha i bagaget för kommande projekt.
 
 Jag behövde ändra i REM-servern så att session inte startades där utan istället i config/di.php, eftersom jag nu använder session på flera ställen, bland annat används session i databashanteringen.
 
 ###Berätta om din syn på Active record och liknande upplägg, ser du fördelar och nackdelar?
 
-Active Record verkar praktiskt. Jag gillar idén att automatisera databashanteringen och slippa skriva sql-kommandon, och sköta allt via objekt istället.
+Active Record verkar också praktiskt. Jag gillar idén att automatisera databashanteringen och slippa skriva sql-kommandon, och sköta allt via objekt istället. Nackdelar kan vara att man inte har full koll på det som sker under huven. Det är möjligt att det också inte är lika lätt att införliva mer avancerade databasfrågor, och som när man behöver programmera databasen och använda triggers och lagrade procedurer. Där kan Active Record vara begränsat. Å andra sidan kan man ju skriva fler Active Record-metoder, utöver de vanliga CRUD-varianterna, och kombinera med att programmera databasen. När man har gjort det arbetet en gång kan det också återanvändas.
 
 ###Utveckla din syn på koden du nu har i ramverket och din kommentars- och användarkod. Hur känns det?
 
-Jag tycker det ser helt okej ut. Det tog lite tid att vänja sig vid den nya strukturen, men efterhand blev det klarare hur jag skulle lägga till nya sidor och formulär. Jag använder DI, routes, pageRender-metoden, och kallar på funktioner i kontrollerklasser från routerna. Formulären laddas med hjälp av Active Record inifrån klasserna och med hjälp av HTMLForm. Jag gjorde alltså om tidigare kod för kommentarsystemet och skrev nya klasser. Jag skulle med fördel kunna gå igenom och snygga till. På en del ställen vet jag att jag kunde ha städat upp sånt som man när man är lite tidspressad inte ägnar tid åt för stunden. Men flyttade ut en del kod till egna funktioner och tänkte igenom innan jag skrev ny kod, vilket var bra för strukturen.
+Det tog lite tid att vänja sig vid den nya strukturen, men efterhand blev det klarare hur jag skulle lägga till nya sidor och formulär. Jag använder DI, routes, pageRender-metoden, och kallar på funktioner i kontrollerklasser från routerna. Formulären laddas med hjälp av Active Record inifrån klasserna och med hjälp av HTMLForm. Jag gjorde alltså om tidigare kod för kommentarsystemet och skrev nya klasser. Jag skulle med fördel kunna gå igenom och snygga till. På en del ställen vet jag att jag kunde ha städat upp sånt som man när man är lite tidspressad inte ägnar tid åt för stunden. Men jag flyttade ut en del kod till egna funktioner och tänkte igenom innan jag skrev ny kod, vilket var bra för strukturen.
 
-Jag har lagt in felhantering men på den punkten vet jag att det kan bli bättre. På flera ställen behöver jag skydda sidor för andra än administratören (som har en annan roll), exempelvis.
+Jag har lagt in felhantering men på den punkten vet jag att det kan bli bättre. På flera ställen behöver jag skydda sidor för andra än administratören (som har roll = 10), exempelvis.
 
 ###Om du vill, och har kunskap om, kan du även berätta om din syn på ORM och designmönstret Data Mapper som är närbesläktade med Active Record. Du kanske har erfarenhet av liknande upplägg i andra sammanhang?
 
@@ -175,6 +175,8 @@ Jag minns jag använde ORM i Python med SQLAlchemy, som också kopplade databas 
 
 ###Vad tror du om begreppet scaffolding, kan det vara något att kika mer på?
 Jag gillar det, det verkar såklart behändigt att scaffolda fram en grund, ett boilerplate för olika projekt. Det kan gälla för sådant som CRUD till exempel. Eller för vilken som helst webbsida, att med ett kommando skapa ett skal som man sedan bygger vidare på. Jag ser för mig att ha diverse olika scaffolds vilka skapar kodgrunder för olika typer av webbprojekt.
+
+Det skulle vara kul att lära lite mer om hur man skapar scaffolding-script som bygger upp en större eller mindre färdig filstruktur, men jag antar det är bash-script och kanske något vi egentligen redan kan. Jag har använt liknande, i form av Makefiler  där jag laddar upp filer till en server, för ett visst projekt. Allt som automatiserar arbetsprocessen känns bra att kunna.
 
 ##Kmom 05
 ##Kmom 06
