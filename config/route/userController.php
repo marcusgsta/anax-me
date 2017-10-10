@@ -3,6 +3,7 @@
  * Routes for user controller.
  */
 return [
+    "mount" => "user",
     "routes" => [
         [
             "info" => "User Controller index.",

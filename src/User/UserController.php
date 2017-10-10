@@ -177,7 +177,6 @@ class UserController implements
 
         $view->add("default2/article", $data);
         $pageRender->renderPage(["title" => "Ej tillgång"]);
-
     }
 
     /**

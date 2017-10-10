@@ -11,20 +11,4 @@ use \Anax\Configure\ConfigureTrait;
 class LogIn implements ConfigureInterface
 {
     use ConfigureTrait;
-
-
-
-    /**
-     * Description.
-     *
-     * @param datatype $variable Description
-     *
-     * @throws Exception
-     *
-     * @return void
-     */
-    public function logIn()
-    {
-
-    }
 }

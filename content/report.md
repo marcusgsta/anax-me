@@ -182,6 +182,8 @@ Det skulle vara kul att lära lite mer om hur man skapar scaffolding-script som 
 
 ###Hur gick arbetet med att lyfta ut koden ur me-sidan och placera i en egen modul?
 
+Det gick riktigt bra den här gången. Jag följde instruktionerna och hade inga större problem.
+
 ###Flöt det på bra med GitHub och kopplingen till Packagist?
 
 ###Hur gick det att åter installera modulen i din me-sida med composer, kunde du följa du din installationsmanual?

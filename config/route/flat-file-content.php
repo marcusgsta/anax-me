@@ -1,23 +1,19 @@
 <?php
-
-
-function startsWith($haystack, $needle)
-{
-     $length = strlen($needle);
-     return (substr($haystack, 0, $length) === $needle);
-}
-
-function endsWith($haystack, $needle)
-{
-    $length = strlen($needle);
-
-    return $length === 0 ||
-    (substr($haystack, -$length) === $needle);
-}
-
 /**
  * Routes for flat file content.
  */
+return [
+    "routes" => [
+        [
+            "info" => "Flat file content.",
+            "requestMethod" => null,
+            "path" => null,
+            "callable" => ["flatFileContentController", "render"],
+        ],
+    ]
+];
+
+/*
 $app->router->always(function () use ($app) {
     // Get the current route and see if it matches a content/file
     $path = $app->request->getRoute();
@@ -38,23 +34,14 @@ $app->router->always(function () use ($app) {
         return;
     }
 
-    // Check for new comments
-
-    $app->commentController->commentCheck();
-
-    // if (isset($_POST['text'])) {
-    //     $new_comment = $_POST;
-    //     $app->comment->saveComment($new_comment);
-    // }
-
     // Get content from markdown file
     $content = file_get_contents($file);
     $content = $app->textfilter->parse($content, ["yamlfrontmatter", "shortcode", "markdown", "titlefromheader"]);
 
     // Render a standard page using layout
     $app->view->add("default1/article", [
-        // "navbar" =>
         "content" => $content->text
     ]);
     $app->renderPage($content->frontmatter);
 });
+*/

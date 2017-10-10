@@ -5,7 +5,7 @@ namespace Marcusgsta\Comment;
 use \Anax\Configure\ConfigureInterface;
 use \Anax\Configure\ConfigureTrait;
 use \Anax\DI\InjectionAwareInterface;
-use \Anax\Di\InjectionAwareTrait;
+use \Anax\DI\InjectionAwareTrait;
 use \Marcusgsta\Comment\HTMLForm\EditCommentForm;
 use \Marcusgsta\Comment\HTMLForm\CreateCommentForm;
 use \Marcusgsta\Comment\HTMLForm\DeleteCommentForm;

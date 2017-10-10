@@ -26,7 +26,12 @@ class PageRender implements PageRenderInterface, InjectionAwareInterface
     public function renderPage($data, $status = 200)
     {
         $data["stylesheets"] = ["css/bootstrap.min.css", "css/style.css", "css/remserver.css"];
-        $data["javascripts"] = ["js/jquery-3.2.1.slim.min.js", "js/tether.min.js", "js/popper.min.js", "js/bootstrap.min.js"];
+        $data["javascripts"] = [
+            "js/jquery-3.2.1.slim.min.js",
+            "js/tether.min.js",
+            "js/popper.min.js",
+            "js/bootstrap.min.js"
+        ];
         $data["commentableRoutes"] = ["index", "about", "report", "remserver", "book"];
 
 
@@ -52,7 +57,16 @@ class PageRender implements PageRenderInterface, InjectionAwareInterface
 
         $commentableRoutes = $data['commentableRoutes'];
         // $view->add("take1/comment", ["user" => $acronym], "commentsection");
-        $view->add("take1/comment", ["comments" => $comments, "user" => $acronym, "role" => $role, "commentableRoutes" => $commentableRoutes], "commentsection");
+        $view->add(
+            "take1/comment",
+            [
+            "comments" => $comments,
+            "user" => $acronym,
+            "role" => $role,
+            "commentableRoutes" => $commentableRoutes
+            ],
+            "commentsection"
+        );
 
         $view->add("take1/footer", ["user" => $acronym], "footer");
         $view->add("default1/layout", $data, "layout");

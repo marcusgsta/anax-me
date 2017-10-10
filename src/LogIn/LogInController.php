@@ -33,7 +33,6 @@ class LogInController implements
         $this->di->session->set("user", $acronym);
 
         return true;
-
     }
 
     /**

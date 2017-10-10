@@ -3,19 +3,8 @@
  * Routes for comment controller.
  */
 return [
+    "mount" => "comment",
     "routes" => [
-        // [
-        //     "info" => "User Controller index.",
-        //     "requestMethod" => "get",
-        //     "path" => "",
-        //     "callable" => ["userController", "getIndex"],
-        // ],
-        // [
-        //     "info" => "Show user profile.",
-        //     "requestMethod" => "get|post",
-        //     "path" => "profile",
-        //     "callable" => ["userController", "showProfile"],
-        // ],
         [
             "info" => "Create a comment.",
             "requestMethod" => "get|post",
@@ -25,9 +14,7 @@ return [
         [
             "info" => "Edit a comment.",
             "requestMethod" => "get|post",
-            // "path" => "edit",
             "path" => "edit/{dataset:alphanum}/{id:digit}",
-            // "path" => "{dataset:alphanum}/{id:digit}",
             "callable" => ["commentController", "getPostEditComment"],
         ],
         [

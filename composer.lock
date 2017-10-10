@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c2a2bfd59c7134757e101d9ed04c442",
+    "content-hash": "6609b3261011e6857a7bf85182d33c96",
     "packages": [
         {
             "name": "anax/common",
@@ -699,6 +699,67 @@
                 "html"
             ],
             "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "marcusgsta/comment",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marcusgsta/comment.git",
+                "reference": "f0a7e1da12215a596cf4b0e7442ec7aab201ba2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marcusgsta/comment/zipball/f0a7e1da12215a596cf4b0e7442ec7aab201ba2d",
+                "reference": "f0a7e1da12215a596cf4b0e7442ec7aab201ba2d",
+                "shasum": ""
+            },
+            "require": {
+                "anax/configure": "^1.0",
+                "anax/database": "^1.1",
+                "anax/di": "^1.0",
+                "anax/htmlform": "^1.0",
+                "anax/page": "^1.0",
+                "anax/request": "^1.0",
+                "anax/response": "^1.0",
+                "anax/router": "^1.0",
+                "anax/session": "^1.0",
+                "anax/textfilter": "^1.0",
+                "anax/url": "^1.0",
+                "anax/view": "^1.0",
+                "mos/cimage": "^0.7.19",
+                "php": ">=5.6",
+                "symfony/yaml": "^3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Anax\\": "src/",
+                    "Marcusgsta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcus Gustafsson",
+                    "email": "marcusgu@icloud.com",
+                    "homepage": "https://dbwebb.se",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Anax COMMENT module.",
+            "homepage": "https://dbwebb.se/anax",
+            "keywords": [
+                "boilerplate",
+                "education",
+                "framework",
+                "micro",
+                "mvc"
+            ],
+            "time": "2017-10-10T16:51:42+00:00"
         },
         {
             "name": "michelf/php-markdown",

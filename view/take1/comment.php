@@ -55,7 +55,7 @@ endif; ?>
 
 <?php
 
-$route = $app->request->getRoute();
+$route = $this->di->request->getRoute();
 // $validRoutes = $this->di->commentRoutes("config");
 $commentableRoutes = $data['commentableRoutes'];
 
@@ -64,7 +64,7 @@ if ($route == "") {
 }
 
 if (in_array($route, $commentableRoutes)) {
-    $previous = $app->request->getRoute();
+    $previous = $this->di->request->getRoute();
     if ($previous == "") {
         $previous = "index";
     }

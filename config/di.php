@@ -13,10 +13,6 @@ return [
                 return $request;
             }
         ],
-        // "response" => [
-        //     "shared" => true,
-        //     "callback" => "\Anax\Response\Response",
-        // ],
         "response" => [
             "shared" => true,
             //"callback" => "\Anax\Response\Response",
@@ -46,7 +42,7 @@ return [
             "callback" => function () {
                 $router = new \Anax\Route\Router();
                 $router->setDI($this);
-                $router->configure("route2.php");
+                $router->configure("route.php");
                 return $router;
             }
         ],
@@ -67,25 +63,42 @@ return [
                 return $viewRender;
             }
         ],
-        "session" => [
-            "shared" => true,
-            "active" => true,
-            "callback" => function () {
-                $session = new \Anax\Session\SessionConfigurable();
-                $session->configure("session.php");
-                $session->start();
-                return $session;
-            }
-        ],
         "textfilter" => [
             "shared" => true,
             "callback" => "\Anax\TextFilter\TextFilter",
         ],
-        "pageRender" => [
+        "rem" => [
             "shared" => true,
             "callback" => function () {
-                $obj = new \Marcusgsta\Page\PageRender();
+                $rem = new \Anax\RemServer\RemServer();
+                $rem->configure("remserver.php");
+                $rem->injectSession($this->get("session"));
+                return $rem;
+            }
+        ],
+        "remController" => [
+            "shared" => true,
+            "callback" => function () {
+                $rem = new \Anax\RemServer\RemServerController();
+                $rem->setDI($this);
+                return $rem;
+            }
+        ],
+        "bookController" => [
+            "shared" => true,
+            "callback" => function () {
+                $obj = new \Anax\Book\BookController();
                 $obj->setDI($this);
+                return $obj;
+            }
+        ],
+        "session" => [
+            "shared" => true,
+            "active" => true,
+            "callback" => function () {
+                $obj = new \Anax\Session\SessionConfigurable();
+                $obj->configure("session.php");
+                $obj->start();
                 return $obj;
             }
         ],
@@ -113,29 +126,12 @@ return [
                 return $obj;
             }
         ],
-        "rem" => [
+        "pageRender" => [
             "shared" => true,
             "callback" => function () {
-                $rem = new \Anax\RemServer\RemServer();
-                $rem->configure("remserver.php");
-                $rem->injectSession($this->get("session"));
-                return $rem;
-            }
-        ],
-        "remController" => [
-            "shared" => true,
-            "callback" => function () {
-                $rem = new \Anax\RemServer\RemServerController();
-                $rem->setDI($this);
-                return $rem;
-            }
-        ],
-        "database" => [
-            "shared" => true,
-            "callback" => function () {
-                $connection = require("database.php");
-                $db = new \Anax\Database\Database($connection);
-                return $db;
+                $obj = new \Marcusgsta\Page\PageRender();
+                $obj->setDI($this);
+                return $obj;
             }
         ],
         "db" => [
@@ -154,44 +150,10 @@ return [
                 return $comment;
             }
         ],
-        "comment" => [
-            "shared" => true,
-            "callback" => function () {
-                $comment = new \Marcusgsta\Comment\Comment();
-                $comment->injectDatabase($this->get("database"));
-                // $comment->setDI($this);
-                return $comment;
-            }
-        ],
-        "access" => [
-            "shared" => true,
-            "callback" => function () {
-                $access = new \Marcusgsta\Access\Access();
-                $access->injectDatabase($this->get("database"));
-
-                return $access;
-            }
-        ],
-        "accessController" => [
-            "shared" => true,
-            "callback" => function () {
-                $access = new \Marcusgsta\Access\AccessController();
-                $access->setDI($this);
-                return $access;
-            }
-        ],
         "userController" => [
             "shared" => true,
             "callback" => function () {
                 $obj = new \Anax\User\UserController();
-                $obj->setDI($this);
-                return $obj;
-            }
-        ],
-        "bookController" => [
-            "shared" => true,
-            "callback" => function () {
-                $obj = new \Anax\Book\BookController();
                 $obj->setDI($this);
                 return $obj;
             }
@@ -204,13 +166,5 @@ return [
                 return $obj;
             }
         ],
-        // "logIn" => [
-        //     "shared" => true,
-        //     "callback" => function () {
-        //         $obj = new \Anax\LogIn\LogIn();
-        //         $obj->setDI($this);
-        //         return $obj;
-        //     }
-        // ],
     ],
 ];

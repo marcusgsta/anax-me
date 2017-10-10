@@ -13,7 +13,8 @@
         "anax/di": "^1.0",
         "anax/page": "^1.0",
         "anax/database": "^1.1",
-        "anax/htmlform": "^1.0"
+        "anax/htmlform": "^1.0",
+        "marcusgsta/comment": "^1.2"
     },
 
     "autoload": {
