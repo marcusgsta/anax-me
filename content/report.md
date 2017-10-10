@@ -179,5 +179,18 @@ Jag gillar det, det verkar såklart behändigt att scaffolda fram en grund, ett 
 Det skulle vara kul att lära lite mer om hur man skapar scaffolding-script som bygger upp en större eller mindre färdig filstruktur, men jag antar det är bash-script och kanske något vi egentligen redan kan. Jag har använt liknande, i form av Makefiler  där jag laddar upp filer till en server, för ett visst projekt. Allt som automatiserar arbetsprocessen känns bra att kunna.
 
 ##Kmom 05
+
+###Hur gick arbetet med att lyfta ut koden ur me-sidan och placera i en egen modul?
+
+###Flöt det på bra med GitHub och kopplingen till Packagist?
+
+###Hur gick det att åter installera modulen i din me-sida med composer, kunde du följa du din installationsmanual?
+
+###Hur väl lyckas du enhetstesta din modul och hur mycket kodtäckning fick du med?
+
+###Några reflektioner över skillnaden med och utan modul?
+
+
+
 ##Kmom 06
 ##Kmom 07-10

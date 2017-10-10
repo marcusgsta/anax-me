@@ -39,7 +39,12 @@ $app->setDI($di);
 //     $di->request->getRoute(),
 //     $di->request->getMethod()
 // );
-$app->router->handle(
-    $app->request->getRoute(),
-    $app->request->getMethod()
+// $app->router->handle(
+//     $app->request->getRoute(),
+//     $app->request->getMethod()
+// );
+
+$di->get("router")->handle(
+    $di->get("request")->getRoute(),
+    $di->get("request")->getMethod()
 );
