@@ -9,7 +9,7 @@ use \Anax\User\User;
 /**
  * Example of FormModel implementation.
  */
-class UserLoginForm extends FormModel
+class UserLogInForm extends FormModel
 {
     /**
      * Constructor injects with DI container.

@@ -184,15 +184,49 @@ Det skulle vara kul att lära lite mer om hur man skapar scaffolding-script som 
 
 Det gick riktigt bra den här gången. Jag följde instruktionerna och hade inga större problem.
 
+Jag har valt att skapa kommentarsmodulen med inloggning, och också med en koppling till bootstrap och en responsiv navigationsmeny. I navigationen ingår också en route 'Min profil', med användarens profil när hon är inloggad. Det kändes lämpligt att ha med detta. På så sätt är kommentarsmodulen även något stylad så att man lätt kan börja jobba vidare med den.
+
 ###Flöt det på bra med GitHub och kopplingen till Packagist?
+
+Ja, det erbjöd inga större problem. Lätt att följa anvisningarna, registrera konto och skapa en hook från Github för automatisk uppdatering när man pushar till repot.
 
 ###Hur gick det att åter installera modulen i din me-sida med composer, kunde du följa du din installationsmanual?
 
+Ja, det gick helt fint. Så som den är skriven så funkar manualen för en helt ren anax-installation. För min me-sida behövde jag göra lite annorlunda på några ställen för att införliva koden. Det gällde navigationsmenyn, där jag valde att inte byta ut min förra eftersom jag hade routes där som jag behövde. I övrigt raderade jag de flesta av filerna och laddade in igen med hjälp av de kommandon jag noterat i manualen.
+
+I manualen sätter man även permissions på databasmappen och databasfilen för att det ska fungera. Jag fixade till mina routes som visat på föreläsningen med "mount" => "comment"/"user", för att minska fel som kan uppstå när användaren ändrar i filer. Nu kan man istället bara kopiera in routsen i route-mappen, så hämtar anax dem automatiskt. Behändigt.
+
+Jag skrev i manualen att man behöver hämta de nya services från config/di.php och lägga in i sin egen DI, samt uppdatera några av de gamla med den nya koden, som exempelvis PageRender.
+
+Nu ska det fungera perfekt när man följer anvisningarna.
+
 ###Hur väl lyckas du enhetstesta din modul och hur mycket kodtäckning fick du med?
 
-###Några reflektioner över skillnaden med och utan modul?
+Jag begränsade mig till några få enhetstester eftersom det inte var ett krav att ha hög täckning, och eftersom jag behöver komma vidare.
+Testerna jag har fungerar bra, men det strulade med att visa kodtäckning för enhetstester. Det var någonting med min dator, eftersom det fungerade på Mikaels dator med samma kod. Det har möjligen att göra med PHP7, men är inte säker. Jag prövade också att uppdatera XDebug men till ingen nytta.
 
+###Några reflektioner över skillnaden med och utan modul?
+Jag tycker det var kul att se hur det fungerar att skapa modul och lägga upp på Packagist, för att sedan dra ned den till godtycklig anax-bas. Otroligt smidigt sätt, composer känns genialt för att inkludera moduler. Kodbasen är i stort sett detsamma, men jag fick tillfälle att rensa upp gamla klasser och annat som inte längre behövdes.
+
+Andra reflektioner är att jag antar att jag har för mycket kod i kontrollerna. Jag följde något exempel, och så rullade det på. I efterhand känns det som om det inte var så det var tänkt, utan att jag istället skulle göra det största arbetet i modellerna. Jag låter det vara så nu, så ska jag satsa på att fixa detta bättre i projektet.
+
+Roligt kursmoment, och skönt att det inte var så omfattande den här gången, särskilt eftersom jag behöver komma i kapp lite grann och tänka på projektet.
 
 
 ##Kmom 06
+
+###Har du någon erfarenhet av automatiserade testar och CI sedan tidigare?
+
+Vi var inne och nosade på området i oophp-kursen i våras. Jag gjorde några få tester mest för att checka att det fungerade som det skulle med phpunit. 
+
+###Hur ser du på begreppen, bra, onödigt, nödvändigt, tidskrävande?
+
+###HUr stor kodtäckning lyckades du uppnå i din modul?
+
+###Berätta hur det gick att integrera mot de olika externa tjänsterna?
+
+###Vilken extern tjänst uppskattade du mest, eller har du förslag på ytterligare externa tjänster att använda?
+
+
+
 ##Kmom 07-10
