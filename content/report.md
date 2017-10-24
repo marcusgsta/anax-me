@@ -217,16 +217,120 @@ Roligt kursmoment, och skönt att det inte var så omfattande den här gången, 
 
 ###Har du någon erfarenhet av automatiserade testar och CI sedan tidigare?
 
-Vi var inne och nosade på området i oophp-kursen i våras. Jag gjorde några få tester mest för att checka att det fungerade som det skulle med phpunit. 
+Vi var inne och nosade på området enhetstester i oophp-kursen i våras. Jag gjorde först några få tester mest för att checka att det fungerade som det skulle med phpunit. Så gav jag mig in lite mer i det. Det kändes lite överväldigande och jag hade dålig koll på det, men jag fick upp min kodtäckning efterhand efter googlande och lite tjuvkikande på kurskamraters lösningar och på forum. Behövde förstå hur jag skulle införliva en mockad DI i mina testmetoder. Något annat jag lärde mig var setup och teardown-metoder, samt setUpBeforeClass som jag såg behövdes för att testa HTMLForm-klasser. Här var phpunits dokumentation till hjälp också.
+
+Automatiserade tester hade jag ingen erfarenhet av tidigare.
 
 ###Hur ser du på begreppen, bra, onödigt, nödvändigt, tidskrävande?
 
-###HUr stor kodtäckning lyckades du uppnå i din modul?
+Jag är väldigt nöjd med att kunna lite mer om detta område. Jag föreställer mig att när man jobbar ute på företaget så är det vanligt med CI. Jag tycker det är otroligt smidigt, för att skriva bättre kod.
+
+Det som har varit tidskrävande är själva enhetstesterna, att mocka DI, databas och sessioner och lära sig hur detta fungerar. Här har jag mer kunskap att inhämta. När man väl satt sig in i det så kan det säkert bli en mer naturlig del av kodningen. Som någon föreslog att till exempel först skriva tester och sedan skriva kod för att klara testerna. Det är ett annat sätt att tänka på programmering. Med tanke på alla issues ens kod har, oavsett hur duktig man är får man säkert buggar, så menar jag att det är nödvändigt med automatiserade tester.
+
+###Hur stor kodtäckning lyckades du uppnå i din modul?
+
+Det står nu på 35 % på scrutinizer, vilket känns bra med tanke på att jag har en ganska stor modul, där jag även drog in klasser ifrån Anax/Page, och där jag även har en navbarklass. Jag skulle nog ha kunnat renodla modulen. Samtidigt känns det praktiskt att ha en modul som fixar även navigation och koppling till bootstrap för styling. I samband med att jag lyfte över PageRender-klassen så tog jag också med de andra klasserna i Page (debug/error etc.), på grund av att det kraschade annars. Men de klasserna borde gå att lyfta ut, antar jag, så att programmet letar upp dem i anax istället.
+
+Angående testandet av HTMLForm-klasserna så fick jag en hel del fel, och nöjde mig med att testa konstruktionen av objekten, och inte callback-metoderna, för det mesta. Även med tanke på metoder i kontrollerna som anropar anax/view stötte jag på motstånd. Jag får ändå vara nöjd med de tester jag har skrivit och som nu fungerar.
 
 ###Berätta hur det gick att integrera mot de olika externa tjänsterna?
 
+Det var inga större problem. Det var bara att logga in och koppla upp sin github mot dem. Något som skedde när jag trodde jag var färdig med allt var att Scrutinizer inte hittade en klass jag kallat UserLogInTest. På Gitter föreslog Mikael att det handlade om Windows och Unix olika känslighet för små och stora bokstäver. Jag ändrade alla "userLogIn" till "userLogin", och så funkade det igen.
+
+Det var också lite strul med versioner och jag uppdaterade lite fram och tillbaka med phpunit 5.7 - 6.4. Jag kör PHP 7.1 och försökte tyda felmeddelandena, men det slutade med att jag körde phpunit 5.7, för att inte behöva ändra i konfigurationsfilerna. Jag ville göra det så enkelt som möjligt för att komma vidare.
+
 ###Vilken extern tjänst uppskattade du mest, eller har du förslag på ytterligare externa tjänster att använda?
 
+Scrutinizier verkar bra. Är överraskad att jag får 9.5 i "kodbetyg", vet inte om min kod förtjänar det, men det ger lite självförtroendeboost i alla fall. Har inte fixat så mycket på de olika issues koden har fått.
+
+CodeClimate tycker att min kod luktar, jag fick "6 code smells". Det handlade om antal tillåtna rader i funktioner, vilket såklart är en poäng att korta ner. Även duplicerad kod går ofta att förbättra. Men Scrutinizer hade mer specifika varningar, och delade också upp i major och minor och bugs. Mycket att ta tag i och förbättre, jättebra verktyg.
+
+SensioLabs gav också besked om att jag har bortkommenterad kod som borde avlägsnas.
+
+Eftersom de olika tjänsterna bidrar med olika information om hur jag kan förbättra min kod och struktur så känns det som en bra idé att använda dem allihop. På så sätt kan man ju få ut mest av testningen.
+
+##Kmom 07-10 – Projektet
+
+###Krav 1 - 3
+Det var en klar fördel att kunna använda min kommentarsmodul som utgångspunkt för projektet, något som med en gång gav det en struktur som var lätt att bygga vidare på. Jag installerade ett anax-skelett, och använde composer för att ladda ner mitt repo marcusgsta/comment från Packagist.
+
+Samtidigt visade det sig ändå snart att jag behövde förändra mycket. Jag tog bort mitt förra kommentarssystem där det var möjligt att kommentera varje sida på webbplatsen. Istället skapade jag nya router, klasser och formulär. Det som framför allt är kvar av det ursprungliga är koden som har med inloggning och användarprofiler att göra.
+
+Man kan registrera en ny användare, med gravatar som profilbild, och även redigera sin profil. När man är inloggad kan man ställa frågor, besvara frågor, samt kommentera frågor eller svar. Jag kikade på StackOverflows webbplats, som jag har haft som modell för utförandet. Särskilt strukturen för frågesidan behövde jag titta extra på. Frågesidan inleds med en fråga, vilken består av både titel och text, så som på SO, där man också kan lägga in bilder, länkar och formatera med hjälp av markdown som filter. De har också ett grundläggande skydd mot script-injektioner; specialtecken skrivs ut som de är istället för att tolkas till kod.
+
+Varje fråga följs av sina eventuella kommentar, och ett formulär för att kommentera. Varje frågesvar följs också av först svarets kommentarer, sedan följer ett formulär för att kommentera det svaret. Längst ner på sidan finner man formuläret för att besvara frågan, uppdelat så som frågeformuläret med titel och text (textarea). För kommentarformulären fick det räcka med ett textfält utan titel.
+
+Jag visste inte helt hur jag skulle lösa det med många formulär på samma sida. I huvudsak fick jag det att fungera genom att ge ett unikt id till varje formulär, där jag konkatenerade id:t för frågan eller svaret till en textsträng.
+
+Formulären hanteras av Anax modul HTMLForm. Jag använder olika formulär till frågor och svar, men skapade en enda formulärmall som sköter både kommentarerna till frågor och till svar. Det ordnade sig genom att sända in variabler och fråge- eller svarsid i klassanropen.
+
+Vidare finns en sida där alla taggar visas upp, tillsammans med de frågor som är kopplade till dessa. Man kommer till frågans sida genom att klicka på den.
+
+### Krav 4: Frågor
+
+Frågeställaren kan märka ett svar som accepterat. Bara ett av svaren till en fråga kan vara accepterat. Detta kontrolleras med en metod som kontrollerar om en fråga har ett accepterat svar.
+
+Alla kan rösta en gång på varje fråga, svar och kommentar, antingen upp eller ner, sedan blir röstningsknappen inaktiv. Det går också att sortera svaren enligt popularitet/röster eller datum – äldst eller nyast främst. I översikten av frågorna visas frågans rank och hur många svar den har fått.
+
+Jag har delat upp vyn för en fråga, och lyft ut delar av koden som går att återanvända, som knapparna för röstning, vilka används flera gånger och även behöver olika tillstånd (inaktiv/aktiv).
+
+För att samla funkionaliteten kring röstande skapade jag en voteController, och dessutom tabeller för röstningar på fråga, svar och kommentarer, för att bättre kunna räkna och hantera användarnas röstningar.
+
+Med hjälp av Bootstrap finns ett enhetligt användargränssnitt där jag använder 'badges' i olika färger för att visa antal svar och ranking.
+
+Något som har hjälpt mig är att minimera koden i vyerna och nästan bara sända in objekt med all information vyn behöver, som till exempel att ha ett attribut question->hasAccepted, för frågor som har ett accepterat svar. Det är också något som har gjort det enklare att felsöka när något inte fungerar.
+
+### Krav 5 : Användare
+
+Detta krav införlivade jag också. Jag skapade ett system för röster: Att skriva en fråga ger 10 poäng, ett svar ger 20 poäng och en kommentar ger 5 poäng. Utöver det får en användare 1 poäng för varje upp-röst, för fråga, svar eller kommentar, och på samma sätt minuspoäng för minusröster. På användarens offentliga profil kan man se vilken rank användaren har, och även annan statistik: frågor ställda och besvarade, kommentarer och svar givna.
+
+Om en användare raderas av administratören sätts hennes ranking till 0. Användaren ligger ändå kvar i systemet som 'Raderad användare'. Den raderade användarens inlägg och svar tas inte bort, bara kopplingarna i tabellerna voteQuestion, -Answer och -Comment, eftersom de inte behövs längre.
+
+En ytterligare funktion skulle kunna vara att ha ett sätt att ta bort allt som har med användaren att göra, frågor, svar och kommentarer – en 'Destroy user'. Jag läste att det ska finnas en sån funktion på StackOverflow.
+
+### Krav 6 – Extra
+
+Här vill jag trycka på att jag har jobbat för att göra webbplatsen smidig att använda. Jag har använt Bootstrap för designen och jag tycker det har hjälpt till att skapa ett lättanvänt användargränssnitt. Det är ofta små saker som lyfter användarvänligheten. Färger, knappar, badges. Knappar som går i synligt inaktivt läge när de inte kan användas mer, som röstningsknappar, och tabbarna för sortering av svaren.
+
+Jag har införlivat säkerhet och sett till att escapa allt som skrivs ut, som en användare har skrivits in.
+
+Sidorna fungerar också relativt bra responsivt, man kan visa i mobil och det ser bra ut, från navigationsmeny till frågeformulär och annat.
+
+Jag vet inte om jag kan lägga till det som krav 6 men min kod ser bättre ut nu än i tidigare projekt. Jag har delat upp, abstraherat i mindre metoder i mina klasser, vilket har gjort det lättare att återanvända och felsöka. Jag är hur som helst stolt över detta, i jämförelse med vad jag har presterat tidigare.
+
+### Allmänt om projektet
+
+I sin helhet har det gått fint med projektet. Det kändes som om saker och ting föll på plats till slut, efter en del frustration under kursmomenten. Något som är kul är att jag märker att jag börjar skriva bättre kod, att dela upp i mer generella funktioner, redan under kodandet, istället för att låta det vänta. Det känns som om vi har byggt på våra kunskaper, och nu fått bättre helhetsförståelse för att bygga webbplatser och ramverk.
+
+Något jag har lärt mig, tror jag, är att vara medveten om vad jag lägger min tid på. Det är viktigt att ta aktiva val och avgöra när man ska släppa något och gå vidare, och inte förlora sig i koden. Det kan ju vara frustrerande att veta att koden borde se bättre ut, att kod borde lyftas ut i egna funktioner, att namespace borde ordnas upp i. Med mer koderfarenhet kommer, tycker jag, en bättre känsla för vad som kommer att ge en "teknisk skuld", och hur stor denna skuld kommer att bli i framtiden. Något som man får ha i bakhuvudet under kodarbetet, och varje litet avgörande som man tar. Samtidigt som det i slutändan är det resultatet som är det viktiga, att kunna leverera produkten innan en deadline och att det fungerar för användaren.
+
+För det här projektet har jag utvecklat min arbetsmetod. Eftersom det var så mycket funktionalitet som skulle utvecklas så har det fallit sig naturligt att på förhand skriva ner de olika stegen som behövde genomföras för varje uppgift. Detta gav mig en bättre översikt, och hjälpte mig också att inte förlora mig för länge i detaljer.
+
+När jag på förhand tänkte igenom vilka steg jag skulle ta, så fick jag också bättre möjlighet att komma fram till mer hållbara lösningar. Det finns för det mesta många sätt att göra någonting på.  Det kan till exempel gälla att välja att göra en kopplingstabell för röstningar, eller att välja sqlite framför mySQL. Vad man väljer är inte självklart, det beror ju också på vad applikationen ska användas till och hur den kommer att fortsätta att utvecklas‚ vilka framtida funktioner som ska införlivas. Sqlite är begränsat, som när det gäller att programmera i databasen, men det är ändå ett dugligt och kraftfullt alternativ som jag tycker klarar att hantera ett sånt här frågeforum. En annan fråga är storleken på den färdiga applikationen, hur många användare som kommer att använda, något som också påverkar valet av tekniska lösning.
+
+Projektet kan givetvis förbättras: Jag har inte lagt krut på administrationsdelen eftersom det inte var specificerat som krav. Jag nöjde mig med att administratören kan ta bort användare och redigera alla frågor. I en utvecklad version borde administratören kunna ta bort frågor, redigera och ta bort svar och kommentarer.
+
+Som det är nu kan en användare redigera en egen fråga, men inte egna svar och kommentarer. Detta är funktioner som inte heller var specificerade som krav, och jag har därför inte fokuserat på detta. Det nya den här gången handlade ju om taggar och röstning, och att få det att fungera med många kommentarfält på samma sida, så jag har satsat på att införliva detta.
+
+Med hjälp av ett javascript dolde jag kommentarfältet för en fråga, när det inte används. Man klickar fram det med en 'kommentera'-länk. Denna funktionaliteten skulle kunna införlivas även för svarskommentarer, men det får också hamna på förbättringslistan.
 
 
-##Kmom 07-10
+### Allmänt om kursen
+
+Det har varit en lite annorlunda kurs, med tanke på att det har handlat mycket om att omstrukturera sin kod och att prova nya och förhoppningsvis bättre strukturer.
+
+Jag tycker att i sin helhet har det känns balanserat. Det fjärde kursmomentet var mer omfattande, men 5:an och 6:an gick snabbt och lätt. Det kan vara okej att det varierar tycker jag, och naturligt med tanke på kursmomentens olika typ av innehåll.
+
+Det har varit kul att lära sig särskilt hur man skapar sin egen modul och lägger upp på en moduldelningssajt. Detta har gett insikter i nya områden av programmeringsvärlden och känns väldigt användbart och som ett måste att kunna som programmerare.
+
+Som vanligt har det varit lätt att få hjälp när man undrar över något, något som höjer betyget för kursen. Jag ställer ofta frågor, när jag kör fast. Kan känna mig lite dum, men det är ju viktigt att svälja sin stolthet eftersom det ofta är så man kommer vidare och lär sig nya saker som man inte förstått helt.
+
+Jag har uppskattat artiklarna, vilka har varit pedagogiska och känts centrala för kursen.
+
+Jag ger kursen 9/10. Det kan alltid bli bättre, men det är också så att vi vid det här laget delvis skapar lärandet på egen hand när vi själva söker upp informationen vi behöver. Allt behöver inte vara  tillrättalagt och ordnat och det kan finnas många svar på samma frågor.
+
+---
+*Validering:* Jag fick valideringsfel för några kursmoment, angående några övningsfiler, en HTMLForm som har en för lång metod där ett formulär skapas. Eftersom det är en mall så lät jag det vara.
+
+
+[Projektet](http://www.student.bth.se/~magi16/dbwebb-kurser/ramverk1/me/kmom10/questionforum/htdocs/)
